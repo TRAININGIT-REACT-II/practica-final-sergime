@@ -1,27 +1,24 @@
-import { useEffect, useState } from "react";
-import Status from "./components/Status";
+import { Provider } from "react-redux";
+import { AuthProvider } from "./auth/context/AuthProvider";
+import { ConfigProvider } from "./shared/context/ConfigProvider";
+
+import { AppRouter } from "./router/AppRouter";
+
+import { store } from "./store/store";
 
 // Componente principal de la aplicación.
 const App = () => {
-  const [status, setStatus] = useState(false);
-  const [loading, setLoading] = useState(true);
-
-  // Cargamos el estado del servidor
-  useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setStatus(data.status === "ok"))
-      .finally(() => setLoading(false));
-  }, []);
 
   // Mostramos la aplicación
   return (
     <main>
-      <h1>Curso de React de TrainingIT</h1>
-      <p>
-        Estado del servidor:
-        {loading ? " Cargando..." : <Status status={status} />}
-      </p>
+      <Provider store={ store }>
+        <AuthProvider>
+          <ConfigProvider>
+            <AppRouter />
+          </ConfigProvider>
+        </AuthProvider>
+      </Provider>
     </main>
   );
 };
