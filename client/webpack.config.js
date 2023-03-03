@@ -5,7 +5,7 @@ const { resolve } = require("path");
 /**
  * Configuración para compilar el cliente de la práctica final
  */
-const aaa = {
+const config = {
   // Para simplificar, asignamos el contexto a la carpeta actual
   context: resolve(__dirname),
   // Punto de entrada de la aplicación

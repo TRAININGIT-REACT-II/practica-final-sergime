@@ -6,6 +6,9 @@ export const notesSlice = createSlice({
     notes: []
   },
   reducers: {
+    setNotes: (state, action) => {
+      state.notes = action.payload
+    },
     createNote: (state, /* action */ ) => {
       //! https://react-redux.js.org/tutorials/quick-start
       // Redux Toolkit allows us to write 'mutating' logic in reducers. It

@@ -13,11 +13,9 @@ const App = () => {
   return (
     <main>
       <Provider store={ store }>
-        <AuthProvider>
-          <ConfigProvider>
-            <AppRouter />
-          </ConfigProvider>
-        </AuthProvider>
+        <ConfigProvider>
+          <AppRouter />
+        </ConfigProvider>
       </Provider>
     </main>
   );

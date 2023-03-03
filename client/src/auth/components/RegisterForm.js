@@ -1,12 +1,14 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
+import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import useApi from "../../shared/hooks/useApi"
 import { useForm } from "../../shared/hooks/useForm"
-import { AuthContext } from "../context/AuthContext"
+import { login } from "../../store/slices/user/userSlice"
 
 export const RegisterForm = ({ change }) => {
-  const { register } = useContext(AuthContext)
   const navigate = useNavigate()
+  // const { user } = useSelector( state => state.user )
+  const dispatch = useDispatch()
 
   const initialForm = { username: '', password: '' }
   const [ formValues, handleInputChange ] = useForm( initialForm )
@@ -14,26 +16,29 @@ export const RegisterForm = ({ change }) => {
   // Definimos la llamada para login
   const loginRequest = useApi("/api/register", "", {}, false);
 
-  let token;
-  if (loginRequest.data) {
-    console.log(loginRequest.data)
-    // token = loginRequest.data.token;
-    // register('Sergi')
-    // navigate('/', {
-    //   replace: true,
-    // })
-  }
+  useEffect(() => {
+    if (loginRequest.data) {
+      const user = loginRequest.data
+      console.log(user)
+      localStorage.setItem('user', JSON.stringify({
+        logged: !!user,
+        user
+      }))
+      dispatch(login(user))
+    }
+  }, [loginRequest])
+
 
   // Función para iniciar sesión en la aplicación
   const onRegister = () => {
+    console.log(formValues)
     loginRequest.updateParams({
       method: "POST",
-      body: JSON.stringify({
-        // En un caso real, estos datos vienen de
-        // un formulario.
-        username: formValues.username,
-        password: formValues.password,
-      }),
+      body: JSON.stringify(formValues),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
     });
     loginRequest.perform();
   };
@@ -81,7 +86,7 @@ export const RegisterForm = ({ change }) => {
         <p>
           Already a member?&nbsp;
           <a
-            href="#!"
+            href="#"
             onClick={ change }
           >
             Sign in

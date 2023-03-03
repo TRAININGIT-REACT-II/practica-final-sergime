@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { AuthContext } from "../../auth/context/AuthContext";
+import { logout } from "../../store/slices/user/userSlice";
 import { ConfigContext } from "../context/configContext";
 import Status from "./Status";
 
@@ -8,8 +9,8 @@ import Status from "./Status";
 export const Navbar = () => {
 
   const { configState, changeTheme } = useContext(ConfigContext)
-  const { logout } = useContext(AuthContext)
-
+  const dispatch = useDispatch()
+  
   const [status, setStatus] = useState(false)
   const [loading, setLoading] = useState(true)
 
@@ -24,7 +25,8 @@ export const Navbar = () => {
   const navigate = useNavigate()
 
   const onLogout = () => {
-      logout()
+      dispatch(logout())
+      localStorage.removeItem('user')
       navigate('/login', {
           replace: true,
       })

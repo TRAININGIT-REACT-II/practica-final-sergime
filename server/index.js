@@ -93,6 +93,9 @@ fastify.get("/api", async () => {
 fastify.post("/api/register", (request, reply) => {
   const { username, password } = request.body;
 
+  console.log(request.body)
+  console.log(username, password)
+
   const userExists = db.get("users").find({ username }).value();
 
   if (userExists != null) {
