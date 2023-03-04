@@ -37,9 +37,44 @@ export const NotesPage = () => {
   }, [])
   
   
+  
   return (
     <>
       <h1>Notes</h1>
+      <div className="row">
+        <div className="offset-2 col-8 table-responsive">
+          <table className="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">
+                  ID
+                </th>
+                <th scope="col">
+                  Title
+                </th>
+                <th scope="col">
+                  Content
+                </th>
+                <th scope="col">
+                  Author
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {
+                notes.map(note => (
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
     </>
   )
 }

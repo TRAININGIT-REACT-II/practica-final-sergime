@@ -11,7 +11,7 @@ export const RegisterForm = ({ change }) => {
   const dispatch = useDispatch()
 
   const initialForm = { username: '', password: '' }
-  const [ formValues, handleInputChange ] = useForm( initialForm )
+  const [formValues, handleInputChange] = useForm(initialForm)
 
   // Definimos la llamada para login
   const loginRequest = useApi("/api/register", "", {}, false);

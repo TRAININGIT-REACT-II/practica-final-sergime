@@ -11,7 +11,7 @@ export const LoginForm = ({ change }) => {
   const dispatch = useDispatch()
 
   const initialForm = { username: '', password: '' }
-  const [ formValues, handleInputChange ] = useForm( initialForm )
+  const [formValues, handleInputChange] = useForm(initialForm)
 
   // Definimos la llamada para login
   const loginRequest = useApi("/api/login", "", {}, false);
@@ -48,7 +48,6 @@ export const LoginForm = ({ change }) => {
   return (
     <form className="login-register-form">
       <h4>Login</h4>
-      {/* <!-- Email input --> */}
       <div className="form-outline mb-4">
         <input
           type="text"
@@ -61,7 +60,6 @@ export const LoginForm = ({ change }) => {
         />
       </div>
 
-      {/* <!-- Password input --> */}
       <div className="form-outline mb-4">
         <input
           type="password"
@@ -74,7 +72,6 @@ export const LoginForm = ({ change }) => {
         />
       </div>
 
-      {/* <!-- Submit button --> */}
       <button
         type="button"
         className="btn btn-primary btn-block mb-4"
