@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { logout } from "../../store/slices/user/userSlice";
 import { ConfigContext } from "../context/configContext";
+import { THEME } from "../../shared/constants/theme"
 import Status from "./Status";
 
 
@@ -61,18 +62,28 @@ export const Navbar = () => {
       <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 justify-content-end">
         <ul className="navbar-nav ml-auto">
           <div className="me-3">
+            
             <input
               type="checkbox"
-              className="btn-check"
+              className="btn-check btn-dark btn-rounded"
               id="btn-check"
               autoComplete="off"
               onClick={ handleChangeTheme }
             />
             <label
-              className="btn btn-primary"
+              className="btn btn-dark btn-rounded"
+              title={
+                configState.theme === THEME.LIGHT
+                  ? 'Light mode'
+                  : 'Dark mode'
+              }
               htmlFor="btn-check"
             >
-              Modo: { configState.theme }
+              {
+                configState.theme === THEME.LIGHT
+                  ? <i className="fas fa-sun"></i>
+                  : <i className="fas fa-moon"></i>
+              }
             </label>
           </div>
 

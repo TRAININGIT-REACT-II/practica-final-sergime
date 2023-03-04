@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export const notesSlice = createSlice({
   name: 'notes',
-  initialState: {
+  initialState: JSON.parse(localStorage.getItem('notes')) || {
     notes: []
   },
   reducers: {
@@ -20,9 +20,17 @@ export const notesSlice = createSlice({
     updateNote: (state, action) => {
 
     },
+    deleteNote: (state, action) => {
+
+    },
   }
 })
 
 
 // Action creators are generated for each case reducer function
-export const { createNote, updateNote } = notesSlice.actions
+export const {
+  setNotes,
+  createNote,
+  updateNote,
+  deleteNote,
+} = notesSlice.actions
