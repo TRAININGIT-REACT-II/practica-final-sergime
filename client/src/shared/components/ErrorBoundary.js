@@ -15,10 +15,19 @@ class ErrorBoundary extends Component {
     return {
       error: true,
     }
+
+    this.handleClick = this.handleClick.bind(this)
   }
 
   componentDidCatch () {
     console.log(error, info)
+  }
+
+  handleClick () {
+    if (typeof this.props.onReset === 'function') {
+      this.props.onReset()
+    }
+    this.setState({ error: false })
   }
 
   render () {
@@ -26,6 +35,12 @@ class ErrorBoundary extends Component {
       return (
         <section>
           <h1>{ this.props.message }</h1>
+          <button
+            onClick={ handleClick }
+            className="btn btn-primary"
+          >
+            Reintentar
+          </button>
         </section>
       )
     }

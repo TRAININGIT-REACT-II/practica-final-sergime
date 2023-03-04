@@ -10,10 +10,19 @@ import ErrorBoundary from "./shared/components/ErrorBoundary";
 // Componente principal de la aplicación.
 const App = () => {
 
+  const handleReset = () => {
+    navigate('/notes', {
+      replace: true,
+    })
+  }
+
   // Mostramos la aplicación
   return (
     <main>
-      <ErrorBoundary message="Algo ha salido mal">
+      <ErrorBoundary
+        message="Algo ha salido mal"
+        onReset={ handleReset }
+      >
         <Provider store={ store }>
           <ConfigProvider>
             <AppRouter />
