@@ -13,7 +13,7 @@ export const NotesPage = () => {
   const notesRequest = useApi("/api/notes", user.token, {}, false);
     
   useEffect(() => {
-    if (notesRequest.data) {
+    if (!notes?.length && notesRequest.data) {
       // console.log('notesRequest.data', notesRequest.data)
       dispatch(setNotes(notesRequest.data))
       localStorage.setItem('notes', JSON.stringify({
@@ -24,8 +24,9 @@ export const NotesPage = () => {
   }, [notesRequest])
   
   useEffect(() => {
-    // console.log('store notes', notes)
-    if (!notes.length)
+    console.log('store notes', notes)
+    if (!notes?.length)
+    console.log('no notes')
     notesRequest.updateParams({
       method: "GET",
       headers: {
@@ -36,7 +37,13 @@ export const NotesPage = () => {
     notesRequest.perform();
   }, [])
   
-  
+  const handleEditNote = () => {
+
+  }
+
+  const handleDeleteNote = () => {
+
+  }
   
   return (
     <>
@@ -45,29 +52,39 @@ export const NotesPage = () => {
         <div className="offset-2 col-8 table-responsive">
           <table className="table table-striped table-hover">
             <thead>
-              <tr>
-                <th scope="col">
-                  ID
-                </th>
-                <th scope="col">
-                  Title
-                </th>
-                <th scope="col">
-                  Content
-                </th>
-                <th scope="col">
-                  Author
-                </th>
+              <tr className="bg-dark text-white">
+                <th scope="col">ID</th>
+                <th scope="col">Title</th>
+                <th scope="col">Content</th>
+                <th scope="col">Author</th>
+                <th></th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               {
-                notes.map(note => (
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                notes?.map(note => (
+                  <tr key={ note.title }>
+                    <td className="col-1">#</td>
+                    <td className="col-2">{ note.title }</td>
+                    <td className="col-4">{ note.content }</td>
+                    <td className="col-1">{ note.author }</td>
+                    <td  className="col">
+                      <button
+                        className="btn btn-primary"
+                        onClick={ handleEditNote }
+                      >
+                        Edit note
+                      </button>
+                    </td>
+                    <td className="col">
+                      <button
+                        className="btn btn-danger"
+                        onClick={ handleDeleteNote }
+                      >
+                        Delete note
+                      </button>
+                    </td>
                   </tr>
                 ))
               }

@@ -6,7 +6,6 @@ import { useForm } from "../../shared/hooks/useForm"
 import { login } from "../../store/slices/user/userSlice"
 
 export const LoginForm = ({ change }) => {
-  const navigate = useNavigate()
   // const user = useSelector( state => state.user )
   const dispatch = useDispatch()
 

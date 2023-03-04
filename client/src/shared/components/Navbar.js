@@ -57,6 +57,15 @@ export const Navbar = () => {
             Notes
           </NavLink>
         </div>
+        <div className="navbar-nav">
+
+          <NavLink 
+            className="nav-item nav-link" 
+            to="/notes-add"
+          >
+            Add note
+          </NavLink>
+        </div>
       </div>
 
       <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 justify-content-end">

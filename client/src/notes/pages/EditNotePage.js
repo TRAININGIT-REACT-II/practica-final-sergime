@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"
 import { useForm } from "../../shared/hooks/useForm"
 import { createNote } from "../../store/slices/notes/notesSlice"
 
-export const AddNotePage = () => {
+export const EditNotePage = () => {
 
   const { user } = useSelector( state => state.user )
   const { notes } = useSelector( state => state.notes )
@@ -19,7 +19,7 @@ export const AddNotePage = () => {
   const [formValues, handleInputChange] = useForm(initialForm)
 
 
-  const handleAddNote = () => {
+  const handleEditNote = () => {
     const note = {
       title: formValues.title,
       content: formValues.content,
@@ -65,9 +65,9 @@ export const AddNotePage = () => {
           <button
             type="button"
             className="btn btn-primary btn-block mb-4"
-            onClick={ handleAddNote }
+            onClick={ handleEditNote }
           >
-            Add note
+            Edit note
           </button>
         </form>
       </div>
