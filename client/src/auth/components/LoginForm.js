@@ -18,7 +18,6 @@ export const LoginForm = ({ change }) => {
 
   useEffect(() => {
     if (loginRequest.data) {
-      console.log(loginRequest.data)
       const user = loginRequest.data
       console.log(user)
       localStorage.setItem('user', JSON.stringify({
@@ -27,7 +26,7 @@ export const LoginForm = ({ change }) => {
       }))
       dispatch(login(user))
     }
-  }, [loginRequest])
+  }, [loginRequest.data])
   
 
 

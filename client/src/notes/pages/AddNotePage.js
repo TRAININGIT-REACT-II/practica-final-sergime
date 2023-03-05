@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import useApi from "../../shared/hooks/useApi"
 import { useForm } from "../../shared/hooks/useForm"
 import { createNote } from "../../store/slices/notes/notesSlice"
 
@@ -10,6 +11,8 @@ export const AddNotePage = () => {
   const { notes } = useSelector( state => state.notes )
   const dispatch = useDispatch()
   const navigate = useNavigate()
+
+  const addNoteRequest = useApi('/api/notes', user.token, {}, false)
 
   const initialForm = {
     title: '',
@@ -25,13 +28,28 @@ export const AddNotePage = () => {
       content: formValues.content,
       author: user.username,
     }
-    dispatch(createNote(note))
-    localStorage.setItem('notes', JSON.stringify({
-      ...notes,
-      note,
-    }))
-    navigate("/notes")
+
+    addNoteRequest.updateParams({
+      method: 'POST',
+      body: JSON.stringify(note),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+    })
+
+    addNoteRequest.perform()
   }
+
+  useEffect(() => {
+    const note = addNoteRequest.data
+    console.log('newnote', addNoteRequest.data)
+    if (note) {
+      dispatch(createNote(note))
+      navigate("/notes")
+    }
+  }, [addNoteRequest.data])
+  
 
   return (
     <div className="row mt-3">

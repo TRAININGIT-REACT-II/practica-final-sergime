@@ -2,12 +2,15 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export const notesSlice = createSlice({
   name: 'notes',
-  initialState: JSON.parse(localStorage.getItem('notes')) || {
+  initialState: {
     notes: []
   },
   reducers: {
     setNotes: (state, action) => {
-      state.notes = action.payload
+      // console.log('slice:setNotes', action.payload)
+      return {
+        notes: action.payload
+      }
     },
     createNote: (state, action ) => {
       //! https://react-redux.js.org/tutorials/quick-start
@@ -18,10 +21,11 @@ export const notesSlice = createSlice({
       state.notes.push(action.payload)
     },
     updateNote: (state, action) => {
-
+      state.notes = state.notes.filter(note => note.title !== action.payload)
+      state.notes.push(action.payload)
     },
     deleteNote: (state, action) => {
-
+      state.notes = state.notes.filter(note => note.title !== action.payload)
     },
   }
 })

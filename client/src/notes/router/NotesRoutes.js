@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Navigate, Route, Routes } from "react-router-dom"
 
 import { Navbar } from "../../shared/components/Navbar"
@@ -12,11 +12,28 @@ export const NotesRoutes = () => {
 
   const { configState } = useContext(ConfigContext)
 
-  const themeClass = configState.theme === THEME.DARK ? ' dark' : ''
+  const themeClass = configState.theme === THEME.DARK ? 'dark' : 'light'
+
+  // Para aplicar el theme global, vamos a aplicar una clase al elemento
+  // body. Luego, cada componente debera realizar sus cambios necesarios
+  useEffect(() => {
+    // En este caso, document.body no debe de mutar ya que React no
+    // modifica dicho nodo. Por ello, es seguro acceder a el sin hacer
+    // uso de referencias
+    if (document.body.classList.value == "") {
+      document.body.classList.add(themeClass);
+    } else {
+      document.body.classList.replace(
+        document.body.classList.value,
+        themeClass
+      );
+    }
+
+  }, [configState.theme]);
 
   return (
     <>
-      <div className={ themeClass }>
+      <div>
         <Navbar />
         
         <div className="container">
