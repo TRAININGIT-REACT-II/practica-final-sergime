@@ -26,7 +26,6 @@ export const AddNotePage = () => {
     const note = {
       title: formValues.title,
       content: formValues.content,
-      author: user.username,
     }
 
     addNoteRequest.updateParams({

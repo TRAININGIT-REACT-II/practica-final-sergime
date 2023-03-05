@@ -9,17 +9,17 @@ class ErrorBoundary extends Component {
     this.state = {
       error: false
     }
+
+    this.handleClick = this.handleClick.bind(this)
   }
 
   static getDerivedStateFromError () {
     return {
       error: true,
     }
-
-    this.handleClick = this.handleClick.bind(this)
   }
 
-  componentDidCatch () {
+  componentDidCatch (error, info) {
     console.log(error, info)
   }
 
@@ -36,7 +36,7 @@ class ErrorBoundary extends Component {
         <section>
           <h1>{ this.props.message }</h1>
           <button
-            onClick={ handleClick }
+            onClick={ this.handleClick }
             className="btn btn-primary"
           >
             Reintentar

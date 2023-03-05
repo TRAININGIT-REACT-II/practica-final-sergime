@@ -68,7 +68,7 @@ export const Navbar = () => {
         </div>
       </div>
 
-      <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 justify-content-end">
+      <div className="navbar-collapse collapse order-3 dual-collapse2 justify-content-end">
         <ul className="navbar-nav ml-auto">
           <div className="me-3">
             

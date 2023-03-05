@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Modal from "../../shared/components/Modal";
 import useApi from "../../shared/hooks/useApi";
 import { setNotes } from "../../store/slices/notes/notesSlice";
@@ -8,15 +9,15 @@ export const NotesPage = () => {
   const [showDeleteNoteModal, setShowDeleteNoteModal] = useState(false)
   const [selectedNote, setSelectedNote] = useState(null)
 
-  const { notes } = useSelector( state => state.notes );
-  const { user } = useSelector( state => state.user );
-  const dispatch = useDispatch();
+  const { notes } = useSelector( state => state.notes )
+  const { user } = useSelector( state => state.user )
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
-  // console.log(notes)
+  console.log('notes', notes)
 
   const notesRequest = useApi("/api/notes", user.token, {}, false);
   
-  // console.log('lsnotes', localStorage.getItem('notes'))
   // console.log('initnotes', notes)
 
   useEffect(() => {
@@ -42,8 +43,8 @@ export const NotesPage = () => {
     }
   }, [])
   
-  const handleEditNoteClick = () => {
-
+  const handleEditNoteClick = (id) => {
+    navigate('/notes-edit/' + id)
   }
 
   const handleDeleteNoteClick = () => {
@@ -82,7 +83,7 @@ export const NotesPage = () => {
         </div>
       </Modal>
       <div className="row">
-        <div className="offset-2 col-8 table-responsive">
+        <div className="offset-1 col-10 table-responsive">
           <table className="table table-striped table-hover">
             <thead>
               <tr className="bg-dark text-white">
@@ -90,32 +91,33 @@ export const NotesPage = () => {
                 <th scope="col">Title</th>
                 <th scope="col">Content</th>
                 <th scope="col">Author</th>
-                <th></th>
-                <th></th>
+                <th scope="col"></th>
               </tr>
             </thead>
             <tbody>
               {
                 notes?.map(note => (
-                  <tr key={ note.title }>
-                    <td className="col-1"># { note.id }</td>
+                  <tr key={ note.id }>
+                    <td className="col-1">{ note.id }</td>
                     <td className="col-2">{ note.title }</td>
-                    <td className="col-4">{ note.content }</td>
-                    <td className="col-1">{ note.author }</td>
-                    <td  className="col">
+                    <td className="col-6">{ note.content }</td>
+                    <td className="col-1">{
+                      typeof note.author === 'object'
+                        ? note.author.username
+                        : note.author
+                    }</td>
+                    <td className="col-2 text-end">
                       <button
-                        className="btn btn-primary"
-                        onClick={ handleEditNoteClick }
+                        className="btn btn-primary me-1"
+                        onClick={ () => handleEditNoteClick(note.id) }
                       >
-                        Edit note
+                        Edit
                       </button>
-                    </td>
-                    <td className="col">
                       <button
                         className="btn btn-danger"
-                        onClick={ handleDeleteNoteClick }
+                        onClick={ () => handleDeleteNoteClick(note.id) }
                       >
-                        Delete note
+                        Delete
                       </button>
                     </td>
                   </tr>
