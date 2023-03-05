@@ -135,19 +135,19 @@ export const NotesPage = () => {
                         className="btn btn-success me-1"
                         onClick={ () => handleViewNoteClick(note) }
                       >
-                        Ver
+                        <i className="fa fa-eye"></i>
                       </button>
                       <button
                         className="btn btn-primary me-1"
                         onClick={ () => handleEditNoteClick(note) }
                       >
-                        Editar
+                        <i className="fa-solid fa-pen"></i>
                       </button>
                       <button
                         className="btn btn-danger"
                         onClick={ () => handleDeleteNoteClick(note) }
                       >
-                        Borrar
+                        <i className="fa fa-trash-can"></i>
                       </button>
                     </td>
                   </tr>

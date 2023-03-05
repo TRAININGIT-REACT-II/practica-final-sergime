@@ -102,7 +102,7 @@ export const EditNotePage = () => {
             className="btn btn-primary btn-block mb-4"
             onClick={ handleEditNote }
           >
-            Edit note
+            Editar
           </button>
         </form>
       </div>
