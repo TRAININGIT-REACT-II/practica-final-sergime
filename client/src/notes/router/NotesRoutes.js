@@ -7,6 +7,7 @@ import { ConfigContext } from "../../shared/context/configContext"
 import { AddNotePage } from "../pages/AddNotePage"
 import { EditNotePage } from "../pages/EditNotePage"
 import { NotesPage } from "../pages/NotesPage"
+import { ViewNotePage } from "../pages/ViewNotePage"
 
 export const NotesRoutes = () => {
 
@@ -41,6 +42,7 @@ export const NotesRoutes = () => {
             <Route path="/notes" element={ <NotesPage /> } />
             <Route path="/notes-add" element={ <AddNotePage /> } />
             <Route path="/notes-edit/:id" element={ <EditNotePage /> } />
+            <Route path="/notes-view/:id" element={ <ViewNotePage /> } />
 
             <Route path="/*" element={ <Navigate to="/notes" /> } />
           </Routes>

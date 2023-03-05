@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../shared/components/Modal";
 import useApi from "../../shared/hooks/useApi";
-import { setNotes } from "../../store/slices/notes/notesSlice";
+import { deleteNote, setNotes } from "../../store/slices/notes/notesSlice";
 
 export const NotesPage = () => {
   const [showDeleteNoteModal, setShowDeleteNoteModal] = useState(false)
@@ -14,9 +14,10 @@ export const NotesPage = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
-  console.log('notes', notes)
+  // console.log('notes', notes)
 
   const notesRequest = useApi("/api/notes", user.token, {}, false);
+  const deleteNoteRequest = useApi("/api/notes/" + selectedNote?.id, user.token, {}, false);
   
   // console.log('initnotes', notes)
 
@@ -43,17 +44,40 @@ export const NotesPage = () => {
     }
   }, [])
   
-  const handleEditNoteClick = (id) => {
-    navigate('/notes-edit/' + id)
+  const handleEditNoteClick = (note) => {
+    navigate('/notes-edit/' + note.id)
   }
 
-  const handleDeleteNoteClick = () => {
+  const handleDeleteNoteClick = (note) => {
+    setSelectedNote(note)
     openModal()
   }
 
-  const handleDeleteNote = (e) => {
-    // console.log(e)
+  const handleViewNoteClick = (note) => {
+    navigate('/notes-view/' + note.id)
   }
+
+  const handleDeleteNote = (note) => {
+    // console.log(note)
+    deleteNoteRequest.updateParams({
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+      }
+    })
+
+    deleteNoteRequest.perform()
+  }
+
+  useEffect(() => {
+    if (deleteNoteRequest.data) {
+      dispatch(deleteNote(selectedNote))
+      setShowDeleteNoteModal(false)
+    }
+  
+  }, [deleteNoteRequest.data])
+  
+  
   
   const openModal = () => setShowDeleteNoteModal(true);
   const closeModal = () => setShowDeleteNoteModal(false);
@@ -76,7 +100,7 @@ export const NotesPage = () => {
           </button>
           <button
             className="btn btn-danger"
-            onClick={ handleDeleteNote(selectedNote) }
+            onClick={ () => handleDeleteNote(selectedNote) }
           >
             Borrar
           </button>
@@ -108,16 +132,22 @@ export const NotesPage = () => {
                     }</td>
                     <td className="col-2 text-end">
                       <button
-                        className="btn btn-primary me-1"
-                        onClick={ () => handleEditNoteClick(note.id) }
+                        className="btn btn-success me-1"
+                        onClick={ () => handleViewNoteClick(note) }
                       >
-                        Edit
+                        Ver
+                      </button>
+                      <button
+                        className="btn btn-primary me-1"
+                        onClick={ () => handleEditNoteClick(note) }
+                      >
+                        Editar
                       </button>
                       <button
                         className="btn btn-danger"
-                        onClick={ () => handleDeleteNoteClick(note.id) }
+                        onClick={ () => handleDeleteNoteClick(note) }
                       >
-                        Delete
+                        Borrar
                       </button>
                     </td>
                   </tr>

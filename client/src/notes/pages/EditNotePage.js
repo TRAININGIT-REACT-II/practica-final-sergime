@@ -23,7 +23,7 @@ export const EditNotePage = () => {
   const updateNoteRequest = useApi('/api/notes/' + id, user.token, {}, false)
 
   useEffect(() => {
-    console.log('getNoteRequest.data1', getNoteRequest.data)
+    // console.log('getNoteRequest.data1', getNoteRequest.data)
     if (getNoteRequest.data) {
       const noteData = getNoteRequest.data
       setNote(noteData)
@@ -61,7 +61,7 @@ export const EditNotePage = () => {
   }
 
   useEffect(() => {
-    console.log('updateNoteRequest.data1', updateNoteRequest.data)
+    // console.log('updateNoteRequest.data1', updateNoteRequest.data)
     if (updateNoteRequest.data) {
       dispatch(updateNote(updateNoteRequest.data))
       navigate("/notes")

@@ -1,65 +1,55 @@
 import React, { useEffect } from 'react'
-import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom"
+import { useSelector } from "react-redux"
+import { useNavigate, useParams } from "react-router-dom"
 import useApi from "../../shared/hooks/useApi"
 import { useForm } from "../../shared/hooks/useForm"
-import { createNote } from "../../store/slices/notes/notesSlice"
 
-export const AddNotePage = () => {
-
+export const ViewNotePage = () => {
+  const { id } = useParams()
   const { user } = useSelector( state => state.user )
-  const dispatch = useDispatch()
+  const { notes } = useSelector( state => state.notes )
   const navigate = useNavigate()
-
-  const addNoteRequest = useApi('/api/notes', user.token, {}, false)
 
   const initialForm = {
     title: '',
     content: '',
-    author: '',
   }
   const [formValues, handleInputChange] = useForm(initialForm)
 
+  const getNoteRequest = useApi('/api/notes/' + id, user.token, {}, false)
 
-  const handleAddNote = () => {
-    const note = {
-      title: formValues.title,
-      content: formValues.content,
+  useEffect(() => {
+    // console.log('getNoteRequest.data1', getNoteRequest.data)
+    if (getNoteRequest.data) {
+      const noteData = getNoteRequest.data
+      formValues.title = noteData.title,
+      formValues.content = noteData.content
     }
 
-    addNoteRequest.updateParams({
-      method: 'POST',
-      body: JSON.stringify(note),
+  }, [getNoteRequest.data])
+
+  useEffect(() => {
+    // console.log('notes', notes)
+    getNoteRequest.updateParams({
+      method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
-      },
+      }
     })
 
-    addNoteRequest.perform()
-  }
+    getNoteRequest.perform()
+  }, [])
 
-  useEffect(() => {
-    const note = {
-      ...addNoteRequest.data,
-      author: {
-        id: user.id,
-        username: user.username,
-      },
-    }
-    // console.log('newnote', addNoteRequest.data)
-    if (addNoteRequest.data) {
-      dispatch(createNote(note))
-      navigate("/notes")
-    }
-  }, [addNoteRequest.data])
-  
+  const handleReturn = () => {
+    navigate('/notes')
+  }
 
   return (
     <div className="row mt-3">
       <div className="offset-3 col-6">
         <form>
-          <div>Add Note</div>
+          <h4>Ver Nota</h4>
           <div className="form-outline mb-4">
             <input
               type="text"
@@ -68,7 +58,7 @@ export const AddNotePage = () => {
               placeholder="Title"
               className="form-control"
               value={ formValues.title }
-              onChange={ handleInputChange }
+              readOnly
             />
           </div>
 
@@ -80,16 +70,16 @@ export const AddNotePage = () => {
               placeholder="Content"
               className="form-control"
               value={ formValues.content }
-              onChange={ handleInputChange }
+              readOnly
             />
           </div>
 
           <button
             type="button"
             className="btn btn-primary btn-block mb-4"
-            onClick={ handleAddNote }
+            onClick={ handleReturn }
           >
-            Add note
+            Volver
           </button>
         </form>
       </div>
