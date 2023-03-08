@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../../shared/components/Modal";
 import useApi from "../../shared/hooks/useApi";
 import { deleteNote, setNotes } from "../../store/slices/notes/notesSlice";
+import { shortenText } from "../helpers/shortenText";
 
 export const NotesPage = () => {
   const [showDeleteNoteModal, setShowDeleteNoteModal] = useState(false)
@@ -123,8 +124,8 @@ export const NotesPage = () => {
                 notes?.map(note => (
                   <tr key={ note.id }>
                     <td className="col-1">{ note.id }</td>
-                    <td className="col-2">{ note.title }</td>
-                    <td className="col-6">{ note.content }</td>
+                    <td className="col-2">{ shortenText(note.title, 30) }</td>
+                    <td className="col-6">{ shortenText(note.content, 30) }</td>
                     <td className="col-1">{
                       typeof note.author === 'object'
                         ? note.author.username
