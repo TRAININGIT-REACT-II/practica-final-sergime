@@ -1,12 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import Modal from "../../shared/components/Modal";
+import { DISPLAY } from "../../shared/constants/display";
+import { ConfigContext } from "../../shared/context/configContext";
 import useApi from "../../shared/hooks/useApi";
 import { deleteNote, setNotes } from "../../store/slices/notes/notesSlice";
+import { NotesCardContainer } from "../components/NotesCardContainer";
 import { NotesTable } from "../components/NotesTable";
 
 export const NotesPage = () => {
+  const { configState } = useContext(ConfigContext)
+
   const [showDeleteNoteModal, setShowDeleteNoteModal] = useState(false)
   const [selectedNote, setSelectedNote] = useState(null)
 
@@ -99,10 +103,19 @@ export const NotesPage = () => {
         </div>
       </Modal>
       <div className="row">
-        <NotesTable
-          notes={ notes }
-          handleDeleteNoteClick={ handleDeleteNoteClick }
-        />
+        {
+          configState.display === DISPLAY.TABLE
+            ?
+              <NotesTable
+                notes={ notes }
+                handleDeleteNoteClick={ handleDeleteNoteClick }
+              />
+            :
+              <NotesCardContainer
+                notes={ notes }
+                handleDeleteNoteClick={ handleDeleteNoteClick }
+              />
+        }
       </div>
     </>
   )

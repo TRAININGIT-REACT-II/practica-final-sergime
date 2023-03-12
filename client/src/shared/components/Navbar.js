@@ -5,11 +5,12 @@ import { logout } from "../../store/slices/user/userSlice";
 import { ConfigContext } from "../context/configContext";
 import { THEME } from "../../shared/constants/theme"
 import Status from "./Status";
+import { DISPLAY } from "../constants/display";
 
 
 export const Navbar = () => {
 
-  const { configState, changeTheme } = useContext(ConfigContext)
+  const { configState, changeTheme, changeDisplay } = useContext(ConfigContext)
   const dispatch = useDispatch()
   
   const [status, setStatus] = useState(false)
@@ -35,6 +36,10 @@ export const Navbar = () => {
 
   const handleChangeTheme = () => {
     changeTheme()
+  }
+
+  const handleChangeDisplay = () => {
+    changeDisplay()
   }
 
   return (
@@ -70,12 +75,35 @@ export const Navbar = () => {
 
       <div className="navbar-collapse collapse order-3 dual-collapse2 justify-content-end">
         <ul className="navbar-nav ml-auto">
-          <div className="me-3">
-            
+          <div className="me-1">
             <input
               type="checkbox"
               className="btn-check btn-dark btn-rounded"
-              id="btn-check"
+              id="btn-check-display"
+              autoComplete="off"
+              onClick={ handleChangeDisplay }
+            />
+            <label
+              className="btn btn-dark btn-rounded"
+              title={
+                configState.display === DISPLAY.TABLE
+                  ? 'Display as table'
+                  : 'Display as cards'
+              }
+              htmlFor="btn-check-display"
+            >
+              {
+                configState.display === DISPLAY.TABLE
+                  ? <i className="fas fa-table"></i>
+                  : <i className="fas fa-address-card"></i>
+              }
+            </label>
+          </div>
+          <div className="me-3">
+            <input
+              type="checkbox"
+              className="btn-check btn-dark btn-rounded"
+              id="btn-check-theme"
               autoComplete="off"
               onClick={ handleChangeTheme }
             />
@@ -86,7 +114,7 @@ export const Navbar = () => {
                   ? 'Light mode'
                   : 'Dark mode'
               }
-              htmlFor="btn-check"
+              htmlFor="btn-check-theme"
             >
               {
                 configState.theme === THEME.LIGHT

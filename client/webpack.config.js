@@ -2,6 +2,8 @@ const HtmlWebPackPlugin = require("html-webpack-plugin");
 const { DefinePlugin } = require("webpack");
 const { resolve } = require("path");
 
+const apiUrl = process.env.API_URL || 'http://localhost:3000'
+
 /**
  * Configuración para compilar el cliente de la práctica final
  */
@@ -46,7 +48,7 @@ const config = {
       filename: "index.html",
     }),
     new DefinePlugin({
-      API_URL: '"http://localhost:3000"',
+      API_URL: JSON.stringify(apiUrl),
     })
   ],
   // Por ahora, incluimos siempre los source maps para que las herramientas
@@ -65,7 +67,7 @@ const config = {
     open: true,
     // Añadimos el proxy para los ejemplos 6.2
     proxy: {
-      "/api": "http://localhost:3000",
+      "/api": apiUrl,
     },
   },
 };
