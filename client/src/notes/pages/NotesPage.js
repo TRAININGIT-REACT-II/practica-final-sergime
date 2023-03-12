@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Modal from "../../shared/components/Modal";
 import useApi from "../../shared/hooks/useApi";
 import { deleteNote, setNotes } from "../../store/slices/notes/notesSlice";
-import { shortenText } from "../helpers/shortenText";
+import { NotesTable } from "../components/NotesTable";
 
 export const NotesPage = () => {
   const [showDeleteNoteModal, setShowDeleteNoteModal] = useState(false)
@@ -13,7 +13,6 @@ export const NotesPage = () => {
   const { notes } = useSelector( state => state.notes )
   const { user } = useSelector( state => state.user )
   const dispatch = useDispatch()
-  const navigate = useNavigate()
 
   // console.log('notes', notes)
 
@@ -44,42 +43,34 @@ export const NotesPage = () => {
       notesRequest.perform();
     }
   }, [])
-  
-  const handleEditNoteClick = (note) => {
-    navigate('/notes-edit/' + note.id)
-  }
 
   const handleDeleteNoteClick = (note) => {
     setSelectedNote(note)
     openModal()
   }
 
-  const handleViewNoteClick = (note) => {
-    navigate('/notes-view/' + note.id)
-  }
-
-  const handleDeleteNote = (note) => {
-    // console.log(note)
-    deleteNoteRequest.updateParams({
-      method: 'DELETE',
-      headers: {
-        'Accept': 'application/json',
-      }
-    })
-
-    deleteNoteRequest.perform()
+  const handleDeleteNote = () => {
+    if(selectedNote.id) {
+      deleteNoteRequest.updateParams({
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+        }
+      })
+  
+      deleteNoteRequest.perform()
+    }
   }
 
   useEffect(() => {
     if (deleteNoteRequest.data) {
       dispatch(deleteNote(selectedNote))
       setShowDeleteNoteModal(false)
+      deleteNoteRequest.reinit()
     }
   
   }, [deleteNoteRequest.data])
-  
-  
-  
+    
   const openModal = () => setShowDeleteNoteModal(true);
   const closeModal = () => setShowDeleteNoteModal(false);
 
@@ -101,62 +92,17 @@ export const NotesPage = () => {
           </button>
           <button
             className="btn btn-danger"
-            onClick={ () => handleDeleteNote(selectedNote) }
+            onClick={ handleDeleteNote }
           >
             Borrar
           </button>
         </div>
       </Modal>
       <div className="row">
-        <div className="offset-1 col-10 table-responsive">
-          <table className="table table-striped table-hover">
-            <thead>
-              <tr className="bg-dark text-white">
-                <th scope="col">ID</th>
-                <th scope="col">Title</th>
-                <th scope="col">Content</th>
-                <th scope="col">Author</th>
-                <th scope="col"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {
-                notes?.map(note => (
-                  <tr key={ note.id }>
-                    <td className="col-1">{ note.id }</td>
-                    <td className="col-2">{ shortenText(note.title, 30) }</td>
-                    <td className="col-6">{ shortenText(note.content, 30) }</td>
-                    <td className="col-1">{
-                      typeof note.author === 'object'
-                        ? note.author.username
-                        : note.author
-                    }</td>
-                    <td className="col-2 text-end">
-                      <button
-                        className="btn btn-success me-1"
-                        onClick={ () => handleViewNoteClick(note) }
-                      >
-                        <i className="fa fa-eye"></i>
-                      </button>
-                      <button
-                        className="btn btn-primary me-1"
-                        onClick={ () => handleEditNoteClick(note) }
-                      >
-                        <i className="fa-solid fa-pen"></i>
-                      </button>
-                      <button
-                        className="btn btn-danger"
-                        onClick={ () => handleDeleteNoteClick(note) }
-                      >
-                        <i className="fa fa-trash-can"></i>
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              }
-            </tbody>
-          </table>
-        </div>
+        <NotesTable
+          notes={ notes }
+          handleDeleteNoteClick={ handleDeleteNoteClick }
+        />
       </div>
     </>
   )

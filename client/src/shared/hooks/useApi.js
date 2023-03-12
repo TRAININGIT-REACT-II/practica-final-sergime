@@ -30,6 +30,11 @@ const useApi = (url, token = "", initialParams = {}, performOnMount = true) => {
     setPerformRequest(true);
   };
 
+  const reinit = () => {
+    setPerformRequest(false)
+    setFetchParams(config)
+  }
+
   // Creamos el objeto de configuración de Fetch
   const config = useMemo(() => {
     const initialConfig = {
@@ -80,6 +85,7 @@ const useApi = (url, token = "", initialParams = {}, performOnMount = true) => {
     error,
     updateParams,
     perform,
+    reinit,
   };
 };
 
