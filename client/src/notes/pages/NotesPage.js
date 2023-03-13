@@ -18,17 +18,13 @@ export const NotesPage = () => {
   const { user } = useSelector( state => state.user )
   const dispatch = useDispatch()
 
-  // console.log('notes', notes)
 
   const notesRequest = useApi("/api/notes", user.token, {}, false);
   const deleteNoteRequest = useApi("/api/notes/" + selectedNote?.id, user.token, {}, false);
   
-  // console.log('initnotes', notes)
 
   useEffect(() => {
-    // console.log(notesRequest.data)
     if (notesRequest.data) {
-      // console.log('notesRequest.data', notesRequest.data)
       dispatch(setNotes(notesRequest.data))
     }
 
@@ -36,7 +32,6 @@ export const NotesPage = () => {
   
   useEffect(() => {
     if (!notes.length) {
-      // console.log('no notes')
       notesRequest.updateParams({
         method: "GET",
         headers: {
@@ -80,7 +75,6 @@ export const NotesPage = () => {
 
   return (
     <>
-      <h1>Notes</h1>
       <Modal
         header="Borrar nota"
         show={showDeleteNoteModal}
@@ -102,7 +96,7 @@ export const NotesPage = () => {
           </button>
         </div>
       </Modal>
-      <div className="row">
+      <div className="row mt-2">
         {
           configState.display === DISPLAY.TABLE
             ?

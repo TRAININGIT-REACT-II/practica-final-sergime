@@ -7,7 +7,6 @@ export const notesSlice = createSlice({
   },
   reducers: {
     setNotes: (state, action) => {
-      // console.log('slice:setNotes', action.payload)
       return {
         notes: action.payload
       }

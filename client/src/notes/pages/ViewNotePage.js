@@ -19,7 +19,6 @@ export const ViewNotePage = () => {
   const getNoteRequest = useApi('/api/notes/' + id, user.token, {}, false)
 
   useEffect(() => {
-    // console.log('getNoteRequest.data1', getNoteRequest.data)
     if (getNoteRequest.data) {
       const noteData = getNoteRequest.data
       formValues.title = noteData.title,
@@ -29,7 +28,6 @@ export const ViewNotePage = () => {
   }, [getNoteRequest.data])
 
   useEffect(() => {
-    // console.log('notes', notes)
     getNoteRequest.updateParams({
       method: 'GET',
       headers: {

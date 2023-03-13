@@ -6,11 +6,12 @@ import { ConfigContext } from "../context/configContext";
 import { THEME } from "../../shared/constants/theme"
 import Status from "./Status";
 import { DISPLAY } from "../constants/display";
+import { setNotes } from "../../store/slices/notes/notesSlice";
 
 
 export const Navbar = () => {
 
-  const { configState, changeTheme, changeDisplay } = useContext(ConfigContext)
+  const { configState, changeTheme, changeDisplay, reset } = useContext(ConfigContext)
   const dispatch = useDispatch()
   
   const [status, setStatus] = useState(false)
@@ -27,11 +28,16 @@ export const Navbar = () => {
   const navigate = useNavigate()
 
   const onLogout = () => {
-      dispatch(logout())
-      localStorage.removeItem('user')
-      navigate('/login', {
-          replace: true,
-      })
+    localStorage.removeItem('user')
+    localStorage.removeItem('notes')
+    localStorage.removeItem('config')
+    dispatch(setNotes([]))
+    dispatch(logout())
+    reset()
+    document.body.classList.value = ""
+    navigate('/login', {
+        replace: true,
+    })
   }
 
   const handleChangeTheme = () => {

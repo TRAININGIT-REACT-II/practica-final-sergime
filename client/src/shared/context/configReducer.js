@@ -14,6 +14,12 @@ export const configReducer = (state = {}, action) => {
         ...state,
         display: action.payload,
       }
+    case types.reset:
+      return {
+        ...state,
+        theme: THEME.LIGHT,
+        display: DISPLAY.TABLE,
+      }
     default:
       return state
   }
@@ -31,5 +37,11 @@ export const doChangeDisplay = (display = DISPLAY.TABLE) => {
   return {
     type: types.changeDisplay,
     payload: display,
+  }
+}
+
+export const doReset = () => {
+  return {
+    type: types.reset,
   }
 }

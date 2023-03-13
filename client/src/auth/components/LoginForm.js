@@ -19,7 +19,6 @@ export const LoginForm = ({ change }) => {
   useEffect(() => {
     if (loginRequest.data) {
       const user = loginRequest.data
-      console.log(user)
       localStorage.setItem('user', JSON.stringify({
         logged: !!user,
         user

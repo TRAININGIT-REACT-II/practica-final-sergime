@@ -1,5 +1,4 @@
 import { Provider } from "react-redux";
-import { AuthProvider } from "./auth/context/AuthProvider";
 import { ConfigProvider } from "./shared/context/ConfigProvider";
 
 import { AppRouter } from "./router/AppRouter";

@@ -19,7 +19,6 @@ export const RegisterForm = ({ change }) => {
   useEffect(() => {
     if (loginRequest.data) {
       const user = loginRequest.data
-      console.log(user)
       localStorage.setItem('user', JSON.stringify({
         logged: !!user,
         user
@@ -31,7 +30,6 @@ export const RegisterForm = ({ change }) => {
 
   // Función para iniciar sesión en la aplicación
   const onRegister = () => {
-    console.log(formValues)
     loginRequest.updateParams({
       method: "POST",
       body: JSON.stringify(formValues),

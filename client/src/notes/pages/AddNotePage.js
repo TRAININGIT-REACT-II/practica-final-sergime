@@ -47,7 +47,6 @@ export const AddNotePage = () => {
         username: user.username,
       },
     }
-    // console.log('newnote', addNoteRequest.data)
     if (addNoteRequest.data) {
       dispatch(createNote(note))
       navigate("/notes")

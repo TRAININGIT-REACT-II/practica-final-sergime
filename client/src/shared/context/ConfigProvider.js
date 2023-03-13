@@ -2,7 +2,7 @@ import React, { useReducer } from 'react'
 import { DISPLAY } from "../constants/display"
 import { THEME } from "../constants/theme"
 import { ConfigContext } from "./configContext"
-import { configReducer, doChangeDisplay, doChangeTheme } from "./configReducer"
+import { configReducer, doChangeDisplay, doChangeTheme, doReset } from "./configReducer"
 
 const init = () => {
   return JSON.parse(localStorage.getItem('config')) || {
@@ -45,11 +45,16 @@ export const ConfigProvider = ({ children }) => {
     dispatch(doChangeDisplay(display))
   }
 
+  const reset = () => {
+    dispatch(doReset())
+  }
+
   return (
     <ConfigContext.Provider value={{
       configState,
       changeTheme,
       changeDisplay,
+      reset,
     }}>
       { children }
     </ConfigContext.Provider>
